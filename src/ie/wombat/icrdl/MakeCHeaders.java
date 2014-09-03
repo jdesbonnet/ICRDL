@@ -150,17 +150,25 @@ public class MakeCHeaders {
 		}
 	}
 	
+	/**
+	 * Given set of vars replace instances of those substrings in input string 'in'.
+	 * 
+	 * @param in
+	 * @param vars
+	 * @return
+	 */
 	private static String substituteVars (String in, HashMap<String,String>vars) {
 		if (vars == null) {
 			return in;
 		}
 		for (String name : vars.keySet()) {
 			String value = vars.get(name);
-			in = in.replaceAll(name, value);
+			in = in.replace("${"+name+"}", value);
 		}
 		
 		return in;
 	}
+	
 	/** 
 	 * Append spaces to end of line to aid formatting of comments.
 	 * 

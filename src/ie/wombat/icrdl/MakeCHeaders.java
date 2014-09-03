@@ -34,7 +34,7 @@ public class MakeCHeaders {
 			String regAddr = rEl.valueOf("address");
 			
 			System.out.println ("");
-			System.out.println ("/** Register " + icId + " " + regId + "**/");
+			System.out.println ("/** Register " + icId + " " + regId + " **/");
 
 			System.out.println ("#define " + icId + "_" + regId + " " + regAddr);
 			List<Element> bitFields = rEl.selectNodes("bitfield");
@@ -64,17 +64,6 @@ public class MakeCHeaders {
 						+ "_MASK"
 						+ " (" + bitFieldMask + "<<" + bitFieldShift + ")" 
 						);
-
-				if (bitFieldEl.valueOf("@type").equals("onoff")) {
-					System.out.println ("#define " 
-						+ icId 
-						+ "_" + regId
-						+ "_" + bitFieldId
-						+ "_ON"
-						+ " (1<<" + bitFieldShift + ")"
-						+ " /* " + bitFieldEl.valueOf("name") + " ON */"
-					);
-				}
 
 				List<Element>fieldValueEls = bitFieldEl.selectNodes("fieldvalue");
 				for (Element fieldvalueEl : fieldValueEls) {

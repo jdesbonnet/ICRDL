@@ -91,7 +91,7 @@ public class MakeCHeaders {
 		System.out.println ("/** Register " 
 				+ icId 
 				+ "_" + regId
-				+ " (" + regName + ")"
+				+ ((regName.length()>0) ? " (" + regName + ")" : "")
 				+ " at address " + regAddr
 				+ " **/");
 

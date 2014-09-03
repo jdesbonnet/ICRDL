@@ -136,9 +136,103 @@ HopeRF RFM69/RFM69HW radio module
 <sname>RcCalStart</sname>
 <description>Triggers the calibration of the RC oscillator when set. Always reads 0. 
     RC calibration must be triggered in Standby mode.</description>
-<fieldvalue><value>1</value><sname>SET</sname><name></name></fieldvalue>
+<fieldvalue><value>1</value><sname>Trig</sname><name></name></fieldvalue>
+</bitfield>
+<bitfield bit="6" rwmode="r">
+<sname>RcCalDone</sname>
+<description>Indicated if calibration is in progress (value 0) or done (value 1)</description>
+<fieldvalue><value>0</value><sname>InProgress</sname><name></name></fieldvalue>
+<fieldvalue><value>1</value><sname>Done</sname><name></name></fieldvalue>
+</bitfield>
+</register>
+
+<register>
+<sname>AfcCtrl</sname>
+<address>0x0b</address>
+<name>Automatic frequency control configuration</name>
+<bitfield bit="5" rwmode="rw">
+<sname>AfcLowBetaOn</sname>
+<description>Improved AFC routine for signals with modulation index lower than 2. </description>
+<fieldvalue><value>1</value><sname>Trig</sname><name></name></fieldvalue>
+</bitfield>
+<bitfield bit="6" rwmode="r">
+<sname>RcCalDone</sname>
+<description>Indicated if calibration is in progress (value 0) or done (value 1)</description>
+<fieldvalue><value>0</value><sname>InProgress</sname><name></name></fieldvalue>
+<fieldvalue><value>1</value><sname>Done</sname><name></name></fieldvalue>
+</bitfield>
+</register>
+
+<register>
+<sname>Listen1</sname>
+<address>0x0d</address>
+<name>Listen mode configuration</name>
+<bitfield bit="7:6" rwmode="rw">
+<sname>ListenResolIdle</sname>
+<description>Resolution of Listen mode idle time (calibrated RC osc)</description>
+<fieldvalue default="true"><value>1</value><sname>64_us</sname><name>64 µs</name></fieldvalue>
+<fieldvalue><value>2</value><sname>4100_us</sname><name>4.1ms</name></fieldvalue>
+<fieldvalue><value>3</value><sname>262_ms</sname><name>262ms</name></fieldvalue>
+</bitfield>
+
+<bitfield bit="5:4" rwmode="rw">
+<sname>ListenResolRx</sname>
+<description>Resolution of Listen mode Rx time (calibrated RC osc)</description>
+<fieldvalue default="true"><value>1</value><sname>64_us</sname><name>64 µs</name></fieldvalue>
+<fieldvalue><value>2</value><sname>4100_us</sname><name>4.1ms</name></fieldvalue>
+<fieldvalue><value>3</value><sname>262_ms</sname><name>262ms</name></fieldvalue>
+</bitfield>
+
+<bitfield bit="3" rwmode="rw">
+<sname>ListenCriteria</sname>
+<description>Criteria for packet acceptance in Listen mode</description>
+<fieldvalue default="true"><value>0</value><sname>GT_RSSI_THRESH</sname><name>signal strength is above  <ref>RssiThreshold</ref> </name></fieldvalue>
+<fieldvalue><value>1</value><sname>GT_RSSI_THRESH_AND_SYNCADDR</sname><name>signal strength is above <ref>RssiThreshold</ref> and SyncAddress match</name></fieldvalue>
+</bitfield>
+
+<bitfield bit="2:1" rwmode="rw">
+<sname>ListenEnd</sname>
+<description>Action taken afteracceptance of apacket in Listen mode</description>
+<fieldvalue><value>0</value><sname>OPT0</sname><name>stay in Rx (ref §4.3)</name></fieldvalue>
+<fieldvalue default="true"><value>1</value><sname>OPT1</sname><name>stays in Rx until PayloadReady or Timeout</name></fieldvalue>
+<fieldvalue><value>2</value><sname>OPT2</sname><name>stays in Rx until PayloadReady or Timeout interrupt. Listen mode then resumes in Idle state. FIFO content is lost at next Rx wakeup.</name></fieldvalue>
 </bitfield>
 
 </register>
+
+<register>
+<sname>Listen2</sname>
+<address>0x0e</address>
+<name>Listen mode configuration</name>    
+<bitfield bit="7:0" rwmode="rw">
+<sname>ListenCoefIdle</sname>
+<description>Duration of the Idle phase in Listen mode. t_listen_idle=ListenCoefIdle*ListenResolIdle</description>
+<defaultvalue>0xf5</defaultvalue>
+</bitfield>
+</register>
+
+
+<register>
+<sname>Listen3</sname>
+<address>0x0f</address>
+<name>Listen mode configuration</name>    
+<bitfield bit="7:0" rwmode="rw">
+<sname>ListenCoefRx</sname>
+<description>Duration of the Rx phase in Listen mode (startup time included, see §4.2.3). t_listen_rx=ListenCoefRx*ListenResolRx</description>
+<defaultvalue>0x20</defaultvalue>
+</bitfield>
+</register>
+
+<register>
+<sname>Version</sname>
+<address>0x10</address>
+<name>Version of chip</name>    
+<bitfield bit="7:0" rwmode="r">
+<sname>Version</sname>
+<description>Chip version. Bits 7:4 give the full revision number, bits 3:0 the metal mask revision number.</description>
+<defaultvalue>0x24</defaultvalue>
+</bitfield>
+</register>
+
 
 </device>

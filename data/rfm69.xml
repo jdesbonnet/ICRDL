@@ -10,6 +10,7 @@
 HopeRF RFM69/RFM69HW radio module
 </description>
 
+
 <register>
 <sname>OPMODE</sname>
 <name>Operation Mode</name>
@@ -234,5 +235,72 @@ HopeRF RFM69/RFM69HW radio module
 </bitfield>
 </register>
 
+<register>
+<sname>PaLevel</sname>
+<address>0x11</address>
+<name>Power Amplifier (PA) power configuration</name>
+<bitfield bit="7" rwmode="rw">
+    <sname>Pa0On</sname>
+    <name>Enables PA0</name>
+    <fieldvalue><value>1</value><sname>ON</sname></fieldvalue>
+</bitfield>
+<bitfield bit="6" rwmode="rw">
+    <sname>Pa1On</sname>
+    <name>Enables PA1</name>
+</bitfield>
+<bitfield bit="5" rwmode="rw">
+    <sname>Pa1On</sname>
+    <name>Enables PA2</name>
+</bitfield>
+<bitfield bit="4:0" rwmode="rw">
+    <sname>OutputPower</sname>
+    <name>Output power setting in 1dB steps</name>
+    <description>
+        Pout = -18 + OutputPower[dBm] with PA0; 
+        Pout = -18 + OutputPower[dBm] with PA1; 
+        Pout = -14 + OutputPower[dBm] with PA1 and PA2;
+        Pout = -11 + OutputPower[dBm] with PA1 and PA2 and high Power PA settings (ref §3.3.7);
+    </description>
+</bitfield>
 
+</register>
+
+<register>
+    <sname>PaRamp</sname>
+    <name>Rise/fall time of ramp up/down in FSK</name>
+    <address>0x12</address>
+    <bitfield bit="3:0" rwmode="rw">
+        <fieldvalue><value>0</value><sname>3400us</sname></fieldvalue>
+        <fieldvalue><value>1</value><sname>2000us</sname></fieldvalue>
+        <fieldvalue><value>2</value><sname>1000us</sname></fieldvalue>
+        <fieldvalue><value>3</value><sname>500us</sname></fieldvalue>
+        <fieldvalue><value>4</value><sname>250us</sname></fieldvalue>
+        <fieldvalue><value>5</value><sname>125us</sname></fieldvalue>
+        <fieldvalue><value>6</value><sname>100us</sname></fieldvalue>
+        <fieldvalue><value>7</value><sname>62us</sname></fieldvalue>
+        <fieldvalue><value>8</value><sname>50us</sname></fieldvalue>
+        <fieldvalue default="true"><value>9</value><sname>40us</sname></fieldvalue>
+        <fieldvalue><value>10</value><sname>31us</sname></fieldvalue>
+        <fieldvalue><value>11</value><sname>25us</sname></fieldvalue>
+        <fieldvalue><value>12</value><sname>20us</sname></fieldvalue>
+        <fieldvalue><value>13</value><sname>15us</sname></fieldvalue>
+        <fieldvalue><value>14</value><sname>12us</sname></fieldvalue>
+        <fieldvalue><value>15</value><sname>10us</sname></fieldvalue>
+    </bitfield>
+</register>
+
+<register>
+    <sname>Ocp</sname>
+    <name>Over current protection (OCP) for the PA configuration</name>
+    <bitfield bit="4" rwmode="rw">
+        <sname>OcpOn</sname>
+        <name>Enable OCP</name>
+    </bitfield>
+    <bitfield bit="3:0" rwmode="rw">
+        <sname>OcpTrim</sname>
+        <name>OCP current trim</name>
+        <description>Imax (mA) = 45 + 5*OcpTrim. 95mA by default.</description>
+        <defaultvalue>10</defaultvalue>
+    </bitfield>
+</register>
 </device>

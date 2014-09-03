@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<device>
+
+<sname>SomeMCU</sname>
+<name>Some random MCU</name>
+<manufacturer>ACME</manufacturer>
+<datasheet-url></datasheet-url>
+
+<description>
+A test to illustrate templates at work
+</description>
+
+<!-- 
+This template describes a register block of which there may be multiple instances 
+with different base addresses. 
+-->
+<template id="SPI_Peripheral">
+    <register>
+        <sname>SPIConfig1</sname>
+        <address>${BASE}+0</address>
+        <name>SPI${INDEX} configuration register 1</name>
+    </register>
+    <register>
+        <sname>SPIConfig2</sname>
+        <address>${BASE}+4</address>
+        <name>SPI${INDEX} configuration register 2</name>
+    </register>
+</template>
+
+<!-- Invoke the template here -->
+<use template_id="SPI_Peripheral">
+    <var name="INDEX" value="0" />
+	<var name="BASE" value="0x40000000" />
+</use>
+<use template_id="SPI_Peripheral">
+    <var name="INDEX" value="1" />
+	<var name="BASE" value="0x40010000" />
+</use>
+
+</device>

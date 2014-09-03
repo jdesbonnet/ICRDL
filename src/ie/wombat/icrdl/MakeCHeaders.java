@@ -44,10 +44,9 @@ public class MakeCHeaders {
 
 			// Register address
 			defineLine = "#define " + icId + "_" + regId + " " + regAddr;
+			System.out.print(defineLine);
 			outSpaces (defineLine);
-			
-	
-			System.out.println ("/* " + icId + " register address */");
+			System.out.println ("/* " + regId + " register address */");
 			
 			List<Element> bitFields = rEl.selectNodes("bitfield");
 			for (Element bitFieldEl : bitFields ) {
@@ -91,7 +90,7 @@ public class MakeCHeaders {
 							+ ")";
 					System.out.print(defineLine);
 					outSpaces(defineLine);
-					System.out.println (" /* " + fieldvalueEl.valueOf("name") + " */");
+					System.out.println ("/* " + fieldvalueEl.valueOf("name") + " */");
 				}
 				
 			}

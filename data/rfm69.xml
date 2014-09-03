@@ -303,4 +303,50 @@ HopeRF RFM69/RFM69HW radio module
         <defaultvalue>10</defaultvalue>
     </bitfield>
 </register>
+
+<register>
+    <sname>IrqFlags1</sname>
+    <name>IRQ Flags 1</name>
+    <address>0x27</address>
+    <bitfield bit="7" rwmode="r">
+        <sname>ModeReady</sname>
+        <name>Mode switch complete flag</name>
+        <description>When a radio mode switch is commanded a value of 1 indicates the mode switch is complete.</description>
+    </bitfield>
+    <bitfield bit="6" rwmode="r">
+        <sname>RxReady</sname>
+        <name>Rx mode ready (RSSI, AGC, AFC complete)</name>
+        <description>Set in Rx mode after RSSI, AGC and AFC. Cleared when leaving Rx mode.</description>
+    </bitfield>
+    <bitfield bit="5" rwmode="r">
+        <sname>TxReady</sname>
+        <name>Tx mode ready (PA ramped up)</name>
+        <description>Set in Tx mode after PA ramp-up. Cleared when leaving Tx mode.</description>
+    </bitfield>
+    <bitfield bit="4" rwmode="r">
+        <sname>PllLock</sname>
+        <name>PLL locked</name>
+        <description>Set in FS, Rx or Tx mode when PLL is locked. Cleared when not locked.</description>
+    </bitfield>
+    <bitfield bit="3" rwmode="rwc">
+        <sname>Rssi</sname>
+        <name>RSSI exceeds threshold</name>
+        <description>Set in Rx mode when RssiValue exceeds RssiThreshold. Cleared when leaving Rx mode.</description>
+    </bitfield>
+    <bitfield bit="2" rwmode="r">
+        <sname>Timeout</sname>
+        <name>Timeout</name>
+        <description>Set when a timeout ocurs (see TimeoutRxStart and TimeoutRssiThresh). Cleared when leaving Rx mode or when FIFO is emptied.</description>
+    </bitfield>
+    <bitfield bit="1" rwmode="r">
+        <sname>AutoMode</sname>
+        <name>In intermediate mode state</name>
+		<description>Set when in intermediate state (while switching modes)</description>
+    </bitfield>   
+     <bitfield bit="0" rwmode="r">
+        <sname>SyncAddressMatch</sname>
+        <name>Sync and Address match</name>
+		<description>Set when Sync and Address (if enabled) are detected. Cleared when leaving Rx mode or FIFO emptied. This bit is read-only in Packet mode, rwc in Continuous mode</description>
+    </bitfield>    
+</register>
 </device>

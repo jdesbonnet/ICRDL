@@ -16,7 +16,7 @@ import org.dom4j.io.SAXReader;
 public class MakeCHeaders {
 	
 	/** Start comments on this column if possible */
-	private static final int COMMENTS_COL = 60;
+	private static final int COMMENTS_COL = 50;
 
 	public static void main (String[] arg) throws Exception {
 		
@@ -90,8 +90,9 @@ public class MakeCHeaders {
 		System.out.println ("");
 		System.out.println ("/** Register " 
 				+ icId 
-				+ " " + regId
-				+ " " + regName
+				+ "_" + regId
+				+ " (" + regName + ")"
+				+ " at address " + regAddr
 				+ " **/");
 
 		// Register address
@@ -201,6 +202,8 @@ public class MakeCHeaders {
 			for (int i = 0; i < COMMENTS_COL - line.length(); i++) {
 				System.out.print(" ");
 			}
+		} else {
+			System.out.print (" ");
 		}
 	}
 	

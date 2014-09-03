@@ -13,6 +13,9 @@ import org.dom4j.io.SAXReader;
  */
 
 public class MakeCHeaders {
+	
+	/** Start comments on this column if possible */
+	private static final int COMMENTS_COL = 60;
 
 	public static void main (String[] arg) throws Exception {
 		
@@ -28,15 +31,24 @@ public class MakeCHeaders {
 		System.out.println (" * Do not edit. Edit ICRDL file and regenerate.");
 		System.out.println (" */");
 		
+		String defineLine;
+		
 		List<Element> registers = document.selectNodes("//register");
 		for (Element rEl : registers) {
 			String regId = rEl.valueOf("sname").toUpperCase();
 			String regAddr = rEl.valueOf("address");
 			
+			// Comment for start of register defines block
 			System.out.println ("");
 			System.out.println ("/** Register " + icId + " " + regId + " **/");
 
-			System.out.println ("#define " + icId + "_" + regId + " " + regAddr);
+			// Register address
+			defineLine = "#define " + icId + "_" + regId + " " + regAddr;
+			outSpaces (defineLine);
+			
+	
+			System.out.println ("/* " + icId + " register address */");
+			
 			List<Element> bitFields = rEl.selectNodes("bitfield");
 			for (Element bitFieldEl : bitFields ) {
 				String bitFieldId = bitFieldEl.valueOf("sname");
@@ -54,9 +66,8 @@ public class MakeCHeaders {
 					bitFieldWidth = 1;
 				}
 				
-				int bitFieldMask = 1<<bitFieldWidth - 1;
-				//bitFieldMask <<= bitFieldShift;
-				
+				// Bit field mask
+				int bitFieldMask = 1<<bitFieldWidth - 1;				
 				System.out.println ("#define "
 						+ icId
 						+ "_" + regId
@@ -65,23 +76,39 @@ public class MakeCHeaders {
 						+ " (" + bitFieldMask + "<<" + bitFieldShift + ")" 
 						);
 
+				// Constant for each bit field value
 				List<Element>fieldValueEls = bitFieldEl.selectNodes("fieldvalue");
 				for (Element fieldvalueEl : fieldValueEls) {
-					System.out.println ("#define " 
-					+ icId 
-					+ "_" + regId
-					+ "_" + bitFieldId
-					+ "_" + fieldvalueEl.valueOf("sname")
-					+ " ("
-					+ fieldvalueEl.valueOf("value")
-					+ "<<"
-					+ bitFieldShift
-					+ ")"
-					+ " /* " + fieldvalueEl.valueOf("name") + " */"
-					);
+					defineLine = "#define " 
+							+ icId 
+							+ "_" + regId
+							+ "_" + bitFieldId
+							+ "_" + fieldvalueEl.valueOf("sname")
+							+ " ("
+							+ fieldvalueEl.valueOf("value")
+							+ "<<"
+							+ bitFieldShift
+							+ ")";
+					System.out.print(defineLine);
+					outSpaces(defineLine);
+					System.out.println (" /* " + fieldvalueEl.valueOf("name") + " */");
 				}
 				
 			}
 		}
 	}
+	
+	/** 
+	 * Append spaces to end of line to aid formatting of comments.
+	 * 
+	 * @param line
+	 */
+	private static void outSpaces (String line) {
+		if (line.length() < COMMENTS_COL) {
+			for (int i = 0; i < COMMENTS_COL - line.length(); i++) {
+				System.out.print(" ");
+			}
+		}
+	}
+	
 }

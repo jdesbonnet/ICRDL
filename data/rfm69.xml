@@ -18,13 +18,17 @@ HopeRF RFM69/RFM69HW radio module
 <bitfield bit="7" rwmode="rw">
 <sname>SequencerOff</sname>
 <description>Controls the automatic Sequencer (see section 4.2)</description>
-<fieldvalue default="true"><value>0</value><name>test</name></fieldvalue>
+<fieldvalue default="true"><value>0</value><name>Operating mode as selected with 
+    <ref>OpMode.Mode</ref> is automatically reached with the Sequencer
+</name></fieldvalue>
 <fieldvalue><value>1</value><name>Mode is forced by user</name></fieldvalue>
 </bitfield>
 
-<bitfield bit="6" rwmode="rw" type="onoff">
+<bitfield bit="6" rwmode="rw">
 <sname>ListenOn</sname>
 <description>Enables Listen Mode, should be enabled whilst in Standby mode.</description>
+<fieldvalue><value>0</value><sname>OFF</sname></fieldvalue>
+<fieldvalue><value>1</value><sname>ON</sname></fieldvalue>
 </bitfield>
 
 <bitfield bit="4:2" rwmode="rw">
@@ -75,9 +79,54 @@ HopeRF RFM69/RFM69HW radio module
 <address>0x03</address>
 <name>MSB of Bit Rate (Chip Rate when Manchesterencoing is enabled)</name>
 <description></description>
+<defaultvalue>0x1a</defaultvalue>
 </register>
 
+<register>
+<sname>BitRateLsb</sname>
+<address>0x04</address>
+<name>LSB of Bit Rate (Chip Rate when Manchesterencoing is enabled)</name>
+<description>BitRate = CrystalFreq / (BitRateMsb*256 + BitRateLsb)</description>
+<defaultvalue>0x0b</defaultvalue>
+</register>
 
+<register>
+<sname>FdevMsb</sname>
+<address>0x05</address>
+<name>MSB of frequency deviation</name>
+<description>Bits 7,6 always 0.</description>
+<defaultvalue>0</defaultvalue>
+</register>
+
+<register>
+<sname>FdevMsb</sname>
+<address>0x06</address>
+<name>LSB of frequency deviation</name>
+<description>Fdev = Fstep * (FdevMsb*256+FdevLsb)</description>
+<defaultvalue>0x52</defaultvalue>
+</register>
+
+<register>
+<sname>FrfMsb</sname>
+<address>0x07</address>
+<name>MSB of the RF carrier frequency</name>
+<description></description>
+<defaultvalue>0xe4</defaultvalue>
+</register>
+<register>
+<sname>FrfMsb</sname>
+<address>0x07</address>
+<name>Middle byte of the RF carrier frequency</name>
+<description></description>
+<defaultvalue>0xc0</defaultvalue>
+</register>
+<register>
+<sname>FrfLsb</sname>
+<address>0x07</address>
+<name>LSB of the RF carrier frequency</name>
+<description>Frf = Fstep * (FrfMsb*65536 + FrfMid*256 + FrfLsb). Default value Frf=915MHz (32MHz crystal)</description>
+<defaultvalue>0x0</defaultvalue>
+</register>
 
 
 </device>

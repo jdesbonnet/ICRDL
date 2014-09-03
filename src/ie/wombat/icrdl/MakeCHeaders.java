@@ -141,7 +141,7 @@ public class MakeCHeaders {
 				line = "#define "
 					+ icId
 					+ "_" + regId
-					+ "_" + bitFieldId
+					+ (bitFieldId.length()>0 ? "_" + bitFieldId : "")
 					+ "_MASK"
 					+ " (0x" + Integer.toHexString(bitFieldMask) + "<<" + bitFieldShift + ")" 
 					;

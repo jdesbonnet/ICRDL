@@ -349,4 +349,73 @@ HopeRF RFM69/RFM69HW radio module
 		<description>Set when Sync and Address (if enabled) are detected. Cleared when leaving Rx mode or FIFO emptied. This bit is read-only in Packet mode, rwc in Continuous mode</description>
     </bitfield>    
 </register>
+
+<register>
+    <sname>IrqFlags2</sname>
+    <name>IRQ Flags 2</name>
+    <address>0x28</address>
+    <bitfield bit="7" rwmode="r">
+        <sname>FifoFull</sname>
+        <name>Set when FIFO is full (ie contains 66 bytes)</name>
+    </bitfield>
+    <bitfield bit="6" rwmode="r">
+        <sname>FifoNotEmpty</sname>
+        <name>Set when FIFO contains at least one byte</name>
+    </bitfield>
+    <bitfield bit="5" rwmode="r">
+        <sname>FifoLevel</sname>
+        <name>Set when the number of bytes in the FIFO exceeds FifoThreshold</name>
+    </bitfield>
+    <bitfield bit="4" rwmode="rwc">
+        <sname>FifoOverrun</sname>
+        <name>Set when FIFO overrun occurs. Flags and FIFO are cleared when this bit is set.</name>
+        <description>Set in FS, Rx or Tx mode when PLL is locked. Cleared when not locked.</description>
+    </bitfield>
+    <bitfield bit="3" rwmode="r">
+        <sname>PacketSent</sname>
+        <name>Set when packet has been sent when in Tx mode.</name>
+    </bitfield>
+    <bitfield bit="2" rwmode="r">
+        <sname>PayloadReady</sname>
+        <name>Set when packet read to read in Rx mode.</name>
+    </bitfield>
+    <bitfield bit="1" rwmode="r">
+        <sname>CrcOk</sname>
+        <name>Set when CRC has passed in Rx mode.</name>
+    </bitfield>
+</register>
+
+<register>
+    <sname>RssiThresh</sname>
+    <name>RSSI trigger level for Rssi interrupt</name>
+    <address>0x29</address>
+    <description>level (dBm) = RssiThreshold / 2</description>
+    <bitfield bit="7:0" rwmode="rw">
+        <sname>RssiThreshold</sname>
+    	<defaultvalue>0xE4</defaultvalue>
+    </bitfield>
+</register>
+
+<register>
+    <sname>RxTimeout1</sname>
+    <name></name>
+    <address>0x2A</address>
+    <bitfield bit="7:0" rwmode="rw">
+        <sname>TimeoutRxStart</sname>
+    	<defaultvalue>0</defaultvalue>
+    </bitfield>
+</register>
+
+
+<register>
+    <sname>RxTimeout2</sname>
+    <name></name>
+    <address>0x2B</address>
+    <bitfield bit="7:0" rwmode="rw">
+        <sname>TimeoutRssiThresh</sname>
+    	<defaultvalue>0</defaultvalue>
+    </bitfield>
+</register>
+
+
 </device>

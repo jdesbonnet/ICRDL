@@ -120,15 +120,17 @@ public class MakeCHeaders {
 			}
 			
 			// Bit field mask
-			int bitFieldMask = 1<<bitFieldWidth - 1;				
-			System.out.println ("#define "
+			if (bitFieldWidth > 1) {
+				int bitFieldMask = (1<<bitFieldWidth) - 1;				
+				System.out.println ("#define "
 					+ icId
 					+ "_" + regId
 					+ "_" + bitFieldId
 					+ "_MASK"
-					+ " (" + bitFieldMask + "<<" + bitFieldShift + ")" 
+					+ " (0x" + Integer.toHexString(bitFieldMask) + "<<" + bitFieldShift + ")" 
 					);
-
+			}
+			
 			// Constant for each bit field value
 			List<Element>fieldValueEls = bitFieldEl.selectNodes("fieldvalue");
 			for (Element fieldvalueEl : fieldValueEls) {

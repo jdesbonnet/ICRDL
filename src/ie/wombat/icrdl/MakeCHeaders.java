@@ -143,7 +143,9 @@ public class MakeCHeaders {
 					+ "_" + regId
 					+ (bitFieldId.length()>0 ? "_" + bitFieldId : "")
 					+ "_MASK"
-					+ " (0x" + Integer.toHexString(bitFieldMask) + "<<" + bitFieldShift + ")" 
+					+ " (0x" + Integer.toHexString(bitFieldMask) 
+					+ (bitFieldShift>0 ? "<<" + bitFieldShift : "")
+					+ ")" 
 					;
 				System.out.print(line);
 				outSpaces(line);
@@ -160,8 +162,7 @@ public class MakeCHeaders {
 						+ "_" + fieldvalueEl.valueOf("sname")
 						+ " ("
 						+ fieldvalueEl.valueOf("value")
-						+ "<<"
-						+ bitFieldShift
+						+ (bitFieldShift>0 ? "<<" + bitFieldShift : "")
 						+ ")";
 				System.out.print(line);
 				outSpaces(line);

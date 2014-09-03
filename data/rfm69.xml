@@ -18,7 +18,7 @@ HopeRF RFM69/RFM69HW radio module
 <bitfield bit="7" rwmode="rw">
 <sname>SequencerOff</sname>
 <description>Controls the automatic Sequencer (see section 4.2)</description>
-<fieldvalue><value>0</value><name>test</name></fieldvalue>
+<fieldvalue default="true"><value>0</value><name>test</name></fieldvalue>
 <fieldvalue><value>1</value><name>Mode is forced by user</name></fieldvalue>
 </bitfield>
 

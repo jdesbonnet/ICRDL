@@ -156,7 +156,7 @@ public class MakeCHeaders {
 				line = "#define " 
 						+ icId 
 						+ "_" + regId
-						+ "_" + bitFieldId
+						+ (bitFieldId.length()>0 ? "_" + bitFieldId : "")
 						+ "_" + fieldvalueEl.valueOf("sname")
 						+ " ("
 						+ fieldvalueEl.valueOf("value")

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<device>
+
+<sname>RFM69</sname>
+<name>RFM69 Radio Module</name>
+<manufacturer>HopeRF</manufacturer>
+<datasheet-url></datasheet-url>
+
+<description>
+HopeRF RFM69/RFM69HW radio module
+</description>
+
+<register>
+<sname>OPMODE</sname>
+<name>Operation Mode</name>
+<address>0x01</address>
+
+<bitfield bit="7" rwmode="rw">
+<sname>SequencerOff</sname>
+<description>Controls the automatic Sequencer (see section 4.2)</description>
+<fieldvalue><value>0</value><name>test</name></fieldvalue>
+<fieldvalue><value>1</value><name>Mode is forced by user</name></fieldvalue>
+</bitfield>
+
+<bitfield bit="6" rwmode="rw" type="onoff">
+<sname>ListenOn</sname>
+<description>Enables Listen Mode, should be enabled whilst in Standby mode.</description>
+</bitfield>
+
+<bitfield bit="4:2" rwmode="rw">
+<sname>Mode</sname>
+<description>Tranceiver's operating mode</description>
+<reference>section 6.2</reference>
+<fieldvalue><value>0</value><sname>SLEEP</sname><name>Sleep mode</name></fieldvalue>
+<fieldvalue><value>1</value><sname>STDBY</sname><name>Standby mode</name></fieldvalue>
+<fieldvalue><value>2</value><sname>FS</sname><name>Frequency Synthesis mode</name></fieldvalue>
+<fieldvalue><value>3</value><sname>TX</sname><name>Transmitter mode</name></fieldvalue>
+<fieldvalue><value>4</value><sname>RX</sname><name>Receiver mode</name></fieldvalue>
+</bitfield>
+
+</register>
+
+<register>
+<sname>DataModul</sname>
+<name>Data Modulation</name>
+<address>0x02</address>
+<bitfield bit="6:5" rwmode="rw">
+<sname>DataMode</sname>
+<description>Data processing mode</description>
+<fieldvalue><value>0</value><sname>Packet</sname><name>Packet mode</name></fieldvalue>
+<fieldvalue><value>2</value><sname>ContinuousBitSync</sname><name>Continuous mode with bit synchronizer</name></fieldvalue>
+<fieldvalue><value>3</value><sname>Continuous</sname><name>Continuous without bit synchronizer</name></fieldvalue>
+</bitfield>
+
+<bitfield bit="4:3" rwmode="rw">
+<sname>ModulationType</sname>
+<description>Modulate type</description>
+<fieldvalue><value>0</value><sname>FSK</sname><name>Frequency Shift Keying (FSK)</name></fieldvalue>
+<fieldvalue><value>1</value><sname>OOK</sname><name>On-Off Keying</name></fieldvalue>
+</bitfield>
+
+<bitfield bit="1:0" rwmode="rw">
+<sname>ModulationShaping</sname>
+<description>Modulating shaping</description>
+<fieldvalue><value>0</value><sname>None</sname><name>no shaping</name></fieldvalue>
+<fieldvalue><value>1</value><sname>SHAPING_OPT1</sname><name>FSK: Gaussian filter, BT=1.0; OOK: fcutoff=BR</name></fieldvalue>
+<fieldvalue><value>2</value><sname>SHAPING_OPT2</sname><name>FSK: Gaussian filter, BT=0.5; OOK: fcutoff=2BR</name></fieldvalue>
+<fieldvalue><value>3</value><sname>SHAPING_OPT3</sname><name>FSK: Gaussian filter, BT=0.3; OOK: reserved</name></fieldvalue>
+</bitfield>
+
+</register>
+
+<register>
+<sname>BitRateMsb</sname>
+<address>0x03</address>
+<name>MSB of Bit Rate (Chip Rate when Manchesterencoing is enabled)</name>
+<description></description>
+</register>
+
+
+
+
+</device>

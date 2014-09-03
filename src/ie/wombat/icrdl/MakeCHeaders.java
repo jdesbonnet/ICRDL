@@ -119,16 +119,35 @@ public class MakeCHeaders {
 				bitFieldWidth = 1;
 			}
 			
-			// Bit field mask
+
+			// TODO: not sure what's best policy for single bit fields
+			if (bitFieldWidth == 1) {
+				line = "#define " 
+						+ icId 
+						+ "_" + regId
+						+ "_" + bitFieldId
+						+ " (1<<"
+						+ bitFieldShift
+						+ ")";
+				System.out.print(line);
+				outSpaces(line);
+				System.out.println ("/* " + bitFieldEl.valueOf("name") + " */");
+				continue;
+			}
+			
+			// Bit field mask: only needed with field width > 1 and < wordLength
 			if (bitFieldWidth > 1) {
 				int bitFieldMask = (1<<bitFieldWidth) - 1;				
-				System.out.println ("#define "
+				line = "#define "
 					+ icId
 					+ "_" + regId
 					+ "_" + bitFieldId
 					+ "_MASK"
 					+ " (0x" + Integer.toHexString(bitFieldMask) + "<<" + bitFieldShift + ")" 
-					);
+					;
+				System.out.print(line);
+				outSpaces(line);
+				System.out.println ("/* " + bitFieldId + " bit mask */");
 			}
 			
 			// Constant for each bit field value

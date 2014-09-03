@@ -115,18 +115,30 @@ HopeRF RFM69/RFM69HW radio module
 </register>
 <register>
 <sname>FrfMsb</sname>
-<address>0x07</address>
+<address>0x08</address>
 <name>Middle byte of the RF carrier frequency</name>
 <description></description>
 <defaultvalue>0xc0</defaultvalue>
 </register>
 <register>
 <sname>FrfLsb</sname>
-<address>0x07</address>
+<address>0x09</address>
 <name>LSB of the RF carrier frequency</name>
 <description>Frf = Fstep * (FrfMsb*65536 + FrfMid*256 + FrfLsb). Default value Frf=915MHz (32MHz crystal)</description>
 <defaultvalue>0x0</defaultvalue>
 </register>
 
+<register>
+<sname>Osc1</sname>
+<address>0x0a</address>
+<name>RS Oscillator configuration</name>
+<bitfield bit="7" rwmode="w">
+<sname>RcCalStart</sname>
+<description>Triggers the calibration of the RC oscillator when set. Always reads 0. 
+    RC calibration must be triggered in Standby mode.</description>
+<fieldvalue><value>1</value><sname>SET</sname><name></name></fieldvalue>
+</bitfield>
+
+</register>
 
 </device>

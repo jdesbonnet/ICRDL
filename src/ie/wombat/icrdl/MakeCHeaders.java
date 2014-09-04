@@ -138,12 +138,13 @@ public class MakeCHeaders {
 			
 			// Bit field mask: only needed with field width > 1 and < wordLength
 			if (bitFieldWidth > 1) {
-				int bitFieldMask = (1<<bitFieldWidth) - 1;				
+				int bitFieldMask = (1<<bitFieldWidth) - 1;
+				String maskMacro = icId
+						+ "_" + regId
+						+ (bitFieldId.length()>0 ? "_" + bitFieldId : "")
+						+ "_MASK";
 				line = "#define "
-					+ icId
-					+ "_" + regId
-					+ (bitFieldId.length()>0 ? "_" + bitFieldId : "")
-					+ "_MASK"
+					+ maskMacro
 					+ " (0x" + Integer.toHexString(bitFieldMask) 
 					+ (bitFieldShift>0 ? "<<" + bitFieldShift : "")
 					+ ")" 
@@ -151,6 +152,17 @@ public class MakeCHeaders {
 				System.out.print(line);
 				outSpaces(line);
 				System.out.println ("/* " + bitFieldId + " bit mask */");
+				
+				// macro with parameter with value
+				line = "#define "
+						+ icId
+						+ "_" + regId
+						+ (bitFieldId.length()>0 ? "_" + bitFieldId : "")
+						+ "_VALUE(x)"
+						+ " (((x)<<"+bitFieldShift+")&" + maskMacro +")";
+				System.out.println(line);
+				//outSpaces(line);
+				//System.out.println ("/* " + bitFieldId + " bit mask */");
 			}
 			
 			// Constant for each bit field value

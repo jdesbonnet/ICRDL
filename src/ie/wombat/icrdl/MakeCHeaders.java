@@ -80,7 +80,7 @@ public class MakeCHeaders {
 	
 	private static void processRegisterEl (String icId, Element registerEl, HashMap<String,String> vars) {
 		
-		String line;
+		String macro;
 
 		String regId = substituteVars(registerEl.valueOf("sname"),vars).toUpperCase();
 		String regAddr = substituteVars(registerEl.valueOf("address"),vars);
@@ -96,10 +96,10 @@ public class MakeCHeaders {
 				+ " **/");
 
 		// Register address
-		line = "#define " + icId + "_" + regId + " (" + regAddr + ")";
-		line = substituteVars(line, vars);
-		System.out.print(line);
-		outSpaces (line);
+		macro = "#define " + icId + "_" + regId + " (" + regAddr + ")";
+		macro = substituteVars(macro, vars);
+		System.out.print(macro);
+		outSpaces (macro);
 		System.out.println ("/* " + regId + " register address */");
 		
 		// Bit field of register
@@ -123,62 +123,64 @@ public class MakeCHeaders {
 
 			// TODO: not sure what's best policy for single bit fields
 			if (bitFieldWidth == 1) {
-				line = "#define " 
+				macro = "#define " 
 						+ icId 
 						+ "_" + regId
 						+ "_" + bitFieldId
 						+ " (1<<"
 						+ bitFieldShift
 						+ ")";
-				System.out.print(line);
-				outSpaces(line);
+				System.out.print(macro);
+				outSpaces(macro);
 				System.out.println ("/* " + bitFieldEl.valueOf("name") + " */");
-				continue;
 			}
 			
 			// Bit field mask: only needed with field width > 1 and < wordLength
-			if (bitFieldWidth > 1) {
+			//if (bitFieldWidth > 1) {
+
+				// bit mask macro ending in _MASK
 				int bitFieldMask = (1<<bitFieldWidth) - 1;
-				String maskMacro = icId
+				String maskMacroName = icId
 						+ "_" + regId
 						+ (bitFieldId.length()>0 ? "_" + bitFieldId : "")
 						+ "_MASK";
-				line = "#define "
-					+ maskMacro
+				macro = "#define "
+					+ maskMacroName
 					+ " (0x" + Integer.toHexString(bitFieldMask) 
 					+ (bitFieldShift>0 ? "<<" + bitFieldShift : "")
 					+ ")" 
 					;
-				System.out.print(line);
-				outSpaces(line);
+				System.out.print(macro);
+				outSpaces(macro);
 				System.out.println ("/* " + bitFieldId + " bit mask */");
 				
-				// macro with parameter with value
-				line = "#define "
-						+ icId
-						+ "_" + regId
+				// set value macro ending in _VALUE
+				String valueMacroName = icId 
+						+ "_" + regId 
 						+ (bitFieldId.length()>0 ? "_" + bitFieldId : "")
-						+ "_VALUE(x)"
-						+ " (((x)<<"+bitFieldShift+")&" + maskMacro +")";
-				System.out.println(line);
+						+ "_VALUE(x)";
+				
+				macro = "#define " + valueMacroName 
+						+ " (((x)<<"+bitFieldShift+")&" + maskMacroName +")";
+				System.out.println(macro);
 				//outSpaces(line);
 				//System.out.println ("/* " + bitFieldId + " bit mask */");
-			}
+			//}
 			
 			// Constant for each bit field value
 			List<Element>fieldValueEls = bitFieldEl.selectNodes("fieldvalue");
 			for (Element fieldvalueEl : fieldValueEls) {
-				line = "#define " 
+				macro = "#define " 
 						+ icId 
 						+ "_" + regId
 						+ (bitFieldId.length()>0 ? "_" + bitFieldId : "")
 						+ "_" + fieldvalueEl.valueOf("sname")
 						+ " ("
 						+ fieldvalueEl.valueOf("value")
-						+ (bitFieldShift>0 ? "<<" + bitFieldShift : "")
+						//+ (bitFieldShift>0 ? "<<" + bitFieldShift : "") // use _VALUE(x) macros instead
 						+ ")";
-				System.out.print(line);
-				outSpaces(line);
+				System.out.print(macro);
+				outSpaces(macro);
 				System.out.println ("/* " + fieldvalueEl.valueOf("name") + " */");
 			}
 			

@@ -115,7 +115,7 @@ HopeRF RFM69/RFM69HW radio module
 <defaultvalue>0xe4</defaultvalue>
 </register>
 <register>
-<sname>FrfMsb</sname>
+<sname>FrfMid</sname>
 <address>0x08</address>
 <name>Middle byte of the RF carrier frequency</name>
 <description></description>

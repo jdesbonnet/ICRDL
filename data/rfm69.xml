@@ -255,7 +255,7 @@ HopeRF RFM69/RFM69HW radio module
     <name>Enables PA1</name>
 </bitfield>
 <bitfield bit="5" rwmode="rw">
-    <sname>Pa1On</sname>
+    <sname>Pa2On</sname>
     <name>Enables PA2</name>
 </bitfield>
 <bitfield bit="4:0" rwmode="rw">

@@ -106,7 +106,7 @@ HopeRF RFM69/RFM69HW radio module
 </register>
 
 <register>
-<sname>FdevMsb</sname>
+<sname>FdevLsb</sname>
 <address>0x06</address>
 <name>LSB of frequency deviation</name>
 <description>Fdev = Fstep * (FdevMsb*256+FdevLsb)</description>
